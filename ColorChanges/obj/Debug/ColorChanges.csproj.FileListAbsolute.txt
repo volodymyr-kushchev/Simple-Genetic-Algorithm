@@ -1,0 +1,10 @@
+C:\Users\Владимир Кущев\source\repos\GeneticAlgorithm\ColorChanges\obj\Debug\ColorChanges.csprojAssemblyReference.cache
+C:\Users\Владимир Кущев\source\repos\GeneticAlgorithm\ColorChanges\obj\Debug\ColorChanges.TestIndivid.resources
+C:\Users\Владимир Кущев\source\repos\GeneticAlgorithm\ColorChanges\obj\Debug\ColorChanges.Properties.Resources.resources
+C:\Users\Владимир Кущев\source\repos\GeneticAlgorithm\ColorChanges\obj\Debug\ColorChanges.csproj.GenerateResource.cache
+C:\Users\Владимир Кущев\source\repos\GeneticAlgorithm\ColorChanges\obj\Debug\ColorChanges.csproj.CoreCompileInputs.cache
+C:\Users\Владимир Кущев\source\repos\GeneticAlgorithm\ColorChanges\bin\Debug\ColorChanges.exe.config
+C:\Users\Владимир Кущев\source\repos\GeneticAlgorithm\ColorChanges\bin\Debug\ColorChanges.exe
+C:\Users\Владимир Кущев\source\repos\GeneticAlgorithm\ColorChanges\bin\Debug\ColorChanges.pdb
+C:\Users\Владимир Кущев\source\repos\GeneticAlgorithm\ColorChanges\obj\Debug\ColorChanges.exe
+C:\Users\Владимир Кущев\source\repos\GeneticAlgorithm\ColorChanges\obj\Debug\ColorChanges.pdb
