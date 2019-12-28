@@ -28,8 +28,6 @@ namespace VectorOfBits
             Console.WriteLine(colorBit.ToString());
         }
 
-
-
         private Color FromBoolToColor(bool[] arr)
         {
             bool[] res = new bool[32];
