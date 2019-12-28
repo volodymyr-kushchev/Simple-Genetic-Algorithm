@@ -76,8 +76,7 @@ namespace ColorChanges
 
             Individual Chield = new Individual(new Point(), Color.White);
             // Кросинговер определяем точку разрыва
-            Random rand = new Random();
-            int BreakPoint = rand.Next(2, 30);
+            int BreakPoint = RandomNumber.GetValue(2, 30);
             bool[] chield1 = new bool[32];
             bool[] chield2 = new bool[32];
             for (int i = 0; i < BreakPoint; i++) 
@@ -92,14 +91,14 @@ namespace ColorChanges
             }
             // Мутация - замена случайного бита 
             // Задаем вероятность мутации для каждого из потомков
-            double MutationProb = rand.Next(1, 10) / 10;// Вероятность мутации 
-            Random randDouble = new Random(rand.Next(1,100));
+            double MutationProb = RandomNumber.GetValue(1, 10) / 10;// Вероятность мутации 
+            Random randDouble = new Random(RandomNumber.GetValue(1,100));
             double MutationProb1 = randDouble.NextDouble();
             double MutationProb2 = randDouble.NextDouble();
             // Задаем случайный номер бита для замены
             // не учитываем первый и последний
-            int Bit1 = rand.Next(0, 31);
-            int Bit2 = rand.Next(0, 31);
+            int Bit1 = RandomNumber.GetValue(0, 31);
+            int Bit2 = RandomNumber.GetValue(0, 31);
             if(MutationProb1 < MutationProb)
             {
                 chield1[Bit1] = !chield1[Bit1];
@@ -143,13 +142,12 @@ namespace ColorChanges
         public void Move()
         {
             int rnd;
-            Random rand = new Random();
             if(LifeTime != 0)
             {
                 if (ChangeDirection <= 0)
                 { // перемещение центра на указаный шаг в случайном направлении
-                    rnd = rand.Next(0, 5);
-                    ChangeDirection = Convert.ToInt16(rand.Next(300)/10.7);
+                    rnd = RandomNumber.GetValue(0, 5);
+                    ChangeDirection = RandomNumber.GetValue(0, 28);
                 }
                 else { ChangeDirection--; rnd = DirectionNow; }
                 
