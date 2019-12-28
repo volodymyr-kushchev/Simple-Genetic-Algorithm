@@ -8,3 +8,13 @@ C:\Users\Владимир Кущев\source\repos\GeneticAlgorithm\ColorChanges\
 C:\Users\Владимир Кущев\source\repos\GeneticAlgorithm\ColorChanges\bin\Debug\ColorChanges.pdb
 C:\Users\Владимир Кущев\source\repos\GeneticAlgorithm\ColorChanges\obj\Debug\ColorChanges.exe
 C:\Users\Владимир Кущев\source\repos\GeneticAlgorithm\ColorChanges\obj\Debug\ColorChanges.pdb
+D:\V_S\Генетический алгоритм\Simple-Genetic-Algorithm\ColorChanges\bin\Debug\ColorChanges.exe.config
+D:\V_S\Генетический алгоритм\Simple-Genetic-Algorithm\ColorChanges\bin\Debug\ColorChanges.exe
+D:\V_S\Генетический алгоритм\Simple-Genetic-Algorithm\ColorChanges\bin\Debug\ColorChanges.pdb
+D:\V_S\Генетический алгоритм\Simple-Genetic-Algorithm\ColorChanges\obj\Debug\ColorChanges.csprojAssemblyReference.cache
+D:\V_S\Генетический алгоритм\Simple-Genetic-Algorithm\ColorChanges\obj\Debug\ColorChanges.TestIndivid.resources
+D:\V_S\Генетический алгоритм\Simple-Genetic-Algorithm\ColorChanges\obj\Debug\ColorChanges.Properties.Resources.resources
+D:\V_S\Генетический алгоритм\Simple-Genetic-Algorithm\ColorChanges\obj\Debug\ColorChanges.csproj.GenerateResource.cache
+D:\V_S\Генетический алгоритм\Simple-Genetic-Algorithm\ColorChanges\obj\Debug\ColorChanges.csproj.CoreCompileInputs.cache
+D:\V_S\Генетический алгоритм\Simple-Genetic-Algorithm\ColorChanges\obj\Debug\ColorChanges.exe
+D:\V_S\Генетический алгоритм\Simple-Genetic-Algorithm\ColorChanges\obj\Debug\ColorChanges.pdb

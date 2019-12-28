@@ -8,3 +8,17 @@ C:\Users\Владимир Кущев\source\repos\GeneticAlgorithm\GeneticAlgori
 C:\Users\Владимир Кущев\source\repos\GeneticAlgorithm\GeneticAlgorithm\obj\Debug\GeneticAlgorithm.exe
 C:\Users\Владимир Кущев\source\repos\GeneticAlgorithm\GeneticAlgorithm\obj\Debug\GeneticAlgorithm.pdb
 C:\Users\Владимир Кущев\source\repos\GeneticAlgorithm\GeneticAlgorithm\obj\Debug\GeneticAlgorithm.csprojAssemblyReference.cache
+D:\V_S\Генетический алгоритм\Simple-Genetic-Algorithm\GeneticAlgorithm\bin\Debug\GeneticAlgorithm.exe.config
+D:\V_S\Генетический алгоритм\Simple-Genetic-Algorithm\GeneticAlgorithm\bin\Debug\GeneticAlgorithm.exe
+D:\V_S\Генетический алгоритм\Simple-Genetic-Algorithm\GeneticAlgorithm\bin\Debug\GeneticAlgorithm.pdb
+D:\V_S\Генетический алгоритм\Simple-Genetic-Algorithm\GeneticAlgorithm\bin\Debug\ColorChanges.exe
+D:\V_S\Генетический алгоритм\Simple-Genetic-Algorithm\GeneticAlgorithm\bin\Debug\ColorChanges.pdb
+D:\V_S\Генетический алгоритм\Simple-Genetic-Algorithm\GeneticAlgorithm\bin\Debug\ColorChanges.exe.config
+D:\V_S\Генетический алгоритм\Simple-Genetic-Algorithm\GeneticAlgorithm\obj\Debug\GeneticAlgorithm.csprojAssemblyReference.cache
+D:\V_S\Генетический алгоритм\Simple-Genetic-Algorithm\GeneticAlgorithm\obj\Debug\GeneticAlgorithm.Form1.resources
+D:\V_S\Генетический алгоритм\Simple-Genetic-Algorithm\GeneticAlgorithm\obj\Debug\GeneticAlgorithm.Properties.Resources.resources
+D:\V_S\Генетический алгоритм\Simple-Genetic-Algorithm\GeneticAlgorithm\obj\Debug\GeneticAlgorithm.csproj.GenerateResource.cache
+D:\V_S\Генетический алгоритм\Simple-Genetic-Algorithm\GeneticAlgorithm\obj\Debug\GeneticAlgorithm.csproj.CoreCompileInputs.cache
+D:\V_S\Генетический алгоритм\Simple-Genetic-Algorithm\GeneticAlgorithm\obj\Debug\GeneticAlgorithm.csproj.CopyComplete
+D:\V_S\Генетический алгоритм\Simple-Genetic-Algorithm\GeneticAlgorithm\obj\Debug\GeneticAlgorithm.exe
+D:\V_S\Генетический алгоритм\Simple-Genetic-Algorithm\GeneticAlgorithm\obj\Debug\GeneticAlgorithm.pdb

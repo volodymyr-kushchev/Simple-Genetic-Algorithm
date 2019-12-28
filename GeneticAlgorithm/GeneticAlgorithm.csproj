@@ -52,7 +52,6 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Individual.cs" />
     <Compile Include="Population.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -83,6 +82,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ПланОптимизации.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ColorChanges\ColorChanges.csproj">
+      <Project>{81f50133-1bd2-4f8e-8b1c-0668516e15c6}</Project>
+      <Name>ColorChanges</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

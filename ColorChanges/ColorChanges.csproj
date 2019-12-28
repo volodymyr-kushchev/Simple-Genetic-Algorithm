@@ -46,6 +46,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChromosomConvert.cs" />
+    <Compile Include="RandomNumber.cs" />
     <Compile Include="TestIndivid.cs">
       <SubType>Form</SubType>
     </Compile>

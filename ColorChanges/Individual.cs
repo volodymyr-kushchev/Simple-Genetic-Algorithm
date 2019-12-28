@@ -15,9 +15,9 @@ namespace ColorChanges
     {
         public int LifeTime { get; set; }
         public bool IsChecked { get; set; }
-        public int Step = 1;
+        public int Step = 10;
         public int size = 40;
-        private Point Center;
+        public Point Center;
 
         public Color ColorOfInd;
         public Int32 bitesColor { get; set; } // а нам нужен вектор, массив 

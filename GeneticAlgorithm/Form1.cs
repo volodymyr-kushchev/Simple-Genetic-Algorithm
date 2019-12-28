@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using System.Drawing;
 using System.Threading;
 using System;
+using ColorChanges;
 
 namespace GeneticAlgorithm
 {
@@ -87,7 +88,7 @@ namespace GeneticAlgorithm
                 {
                     foreach (Individual ind in pop)
                     {
-                            ind.Update();
+                            ind.Move();
                             ind.LifeTime--;
                             e.Graphics.DrawRectangle(ind.pen, ind.rectangle);
                             ind.IsChecked = false;
