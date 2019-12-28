@@ -16,7 +16,7 @@ namespace ColorChanges
         {
             byte[] randomNumber = new byte[1];
             rnd.GetBytes(randomNumber);
-            return ((int)randomNumber.GetValue(0) % to + from);
+            return (Convert.ToInt32(randomNumber.GetValue(0)) % to + from);
         }
     }
 }
