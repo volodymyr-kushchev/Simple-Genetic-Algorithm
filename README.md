@@ -1,7 +1,7 @@
 # Simple-Genetic-Algorithm
 implementation of genetic algorithm with visualization
 
-Workflow:
+Workflow:<br/>
 1)Firstly, the program creates squares with different colors.  
 2)Then they are moving across the area of the window  
 3)When some of them intersect each other -> program create a descendant with color generated via a genetic algorithm  
