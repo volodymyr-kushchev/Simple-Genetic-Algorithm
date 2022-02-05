@@ -11,8 +11,10 @@ namespace GeneticAlgorithm
         public const int up = 3;
         public const int down = 4;
     }
+
     public class Individual
     {
+        const int chromosomeSize = 32;
         public int LifeTime { get; set; }
         public bool IsChecked { get; set; }
         public int Step = 10;
@@ -20,8 +22,8 @@ namespace GeneticAlgorithm
         public Point Center;
 
         public Color ColorOfInd;
-        public Int32 bitesColor { get; set; } // а нам нужен вектор, массив 
-        public bool[] Chromosome = new bool[32];
+        public Int32 bitesColor { get; set; }
+        public bool[] Chromosome = new bool[chromosomeSize];
 
         public int ChangeDirection;
         public int DirectionNow;
@@ -36,9 +38,7 @@ namespace GeneticAlgorithm
             LifeTime = 200;
             IsChecked = false;
             bitesColor = 0;
-            bool[] temp = FromColorToBool(color);
-            for (int i = 0; i < 32; i++)
-                Chromosome[i] = temp[i];
+            Array.Copy(FromColorToBool(color), Chromosome, chromosomeSize);
             Center = center;
             s.Height = size;
             s.Width = size;
@@ -78,7 +78,7 @@ namespace GeneticAlgorithm
         // Returns bool array
         public bool[] FromColorToBool(Color color)
         {
-            bool[] res = new bool[32];
+            bool[] res = new bool[chromosomeSize];
             bool[] b0 = ConvertByteToBoolArray(color.A);
             for (int i = 0; i < 8; i++)
                 res[i] = b0[i];
@@ -98,12 +98,12 @@ namespace GeneticAlgorithm
         public string ChromosomeToString()
         {
             string res = String.Empty;
-            for(int i =0;i<32;i++)
+
+            foreach(bool chroma in Chromosome)
             {
-                if (Chromosome[i])
-                    res += "1";
-                else res += "0";
+                res += chroma ? "1" : "0";
             }
+
             return res;
         }
         private static byte ConvertBoolArrayToByte(bool[] source)
@@ -150,14 +150,14 @@ namespace GeneticAlgorithm
             // Кросинговер определяем точку разрыва
             Random rand = new Random();
             int BreakPoint = rand.Next(2, 30);
-            bool[] chield1 = new bool[32];
-            bool[] chield2 = new bool[32];
+            bool[] chield1 = new bool[chromosomeSize];
+            bool[] chield2 = new bool[chromosomeSize];
             for (int i = 0; i < BreakPoint; i++) 
             {
                 chield1[i] = Parent1.Chromosome[i];
                 chield2[i] = Parent2.Chromosome[i];
             }
-            for (int j = BreakPoint; j < 32; j++) 
+            for (int j = BreakPoint; j < chromosomeSize; j++) 
             {
                 chield1[j] = Parent2.Chromosome[j];
                 chield2[j] = Parent1.Chromosome[j];
@@ -172,11 +172,11 @@ namespace GeneticAlgorithm
             // не учитываем первый и последний
             int Bit1 = rand.Next(0, 31);
             int Bit2 = rand.Next(0, 31);
-            if(MutationProb1 < MutationProb)
+            if (MutationProb1 < MutationProb)
             {
                 chield1[Bit1] = !chield1[Bit1];
             }
-            if(MutationProb2 < MutationProb)
+            if (MutationProb2 < MutationProb)
             {
                 chield2[Bit2] = !chield2[Bit2];
             }

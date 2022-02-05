@@ -3,28 +3,27 @@ using System.Windows.Forms;
 using System.Drawing;
 using System.Threading;
 using System;
+using System.Threading.Tasks;
 
 namespace GeneticAlgorithm
 {
-    public partial class Form1 : Form
+    public partial class MainArea : Form
     {
         Population population = new Population();
         Graphics Sheet;
         Color[] ColorArea = new Color[6];
         object loker = new object();
-        public Form1()
+        public MainArea()
         {
             InitializeComponent();
             Sheet = this.CreateGraphics();
             PreSeed();
-            Thread recombination = new Thread(new ThreadStart(CheckNew));
-            recombination.IsBackground = true;
-            recombination.Start();
+            Task.Run(CheckNew);
         }
         public void PreSeed()
         {
             List<Individual> lst1 = new List<Individual>();
-            List<Individual> lst2= new List<Individual>();
+            List<Individual> lst2 = new List<Individual>();
             List<Individual> lst3 = new List<Individual>();
             List<Individual> lst4 = new List<Individual>();
             List<Individual> lst5 = new List<Individual>();
@@ -35,7 +34,7 @@ namespace GeneticAlgorithm
             ColorArea[3] = Color.Green;
             ColorArea[4] = Color.Gold;
             ColorArea[5] = Color.Yellow;
-            for (int i = 0; i < 2; i++) 
+            for (int i = 0; i < 2; i++)
             {
                 Individual ind = new Individual(new Point(i * 10 + 100, i * 10 + 300), Color.Red);
                 lst1.Add(ind);
@@ -74,11 +73,9 @@ namespace GeneticAlgorithm
             population.Areas[5] = lst6;
             lst6.Clear();
         }
-       
+
         private void PaintInd(object sender, PaintEventArgs e)
         {
-
-            Rectangle[] recs = new Rectangle[18];
             int q = 0;
             while (q < 1000)
             {
@@ -87,22 +84,21 @@ namespace GeneticAlgorithm
                 {
                     foreach (Individual ind in pop)
                     {
-                            ind.Update();
-                            ind.LifeTime--;
-                            e.Graphics.DrawRectangle(ind.pen, ind.rectangle);
-                            ind.IsChecked = false;
+                        ind.Update();
+                        ind.LifeTime--;
+                        e.Graphics.DrawRectangle(ind.pen, ind.rectangle);
+                        ind.IsChecked = false;
                     }
                 }
-                //Thread.Sleep(15);
-                q++;    
+                Thread.Sleep(15);
+                q++;
             }
 
         }
         public Color ColorOfRegion(Point p)
         {
-            Color SomeColor = new Color();
             int reg = 0;
-            if(p.X>250)
+            if (p.X > 250)
             {
                 if (p.Y > 300)
                 {
@@ -120,18 +116,18 @@ namespace GeneticAlgorithm
                 }
                 else { reg = 0; }
             }
-            SomeColor = ColorArea[reg];
-            return SomeColor;
+
+            return ColorArea[reg];
         }
         public void CheckNew()
         {
-                    lock (loker)
-                    {
-            for (int i = 0; i < population.Areas.Count - 1; i++)
+            lock (loker)
             {
-                Individual ind = population.Areas[i][0];
-                for (int j = 0; j < population.Areas[i].Count; j++)
+                for (int i = 0; i < population.Areas.Count - 1; i++)
                 {
+                    Individual ind = population.Areas[i][0];
+                    for (int j = 0; j < population.Areas[i].Count; j++)
+                    {
                         if (population.Areas[i][j].LifeTime < 0)
                         {
                             Individual ind2 = population.Areas[i][j];
@@ -144,15 +140,15 @@ namespace GeneticAlgorithm
                                 {
                                     Individual some = ind.GenerateDescendant(ind, population.Areas[i][j], ColorOfRegion(ind.Center));
                                     population.Areas[i].Add(some);
-                                    richTextBox1.Invoke((new MethodInvoker(delegate () { richTextBox1.AppendText("+ one descendant\n"); })));
+                                    LogsWindow.Invoke((new MethodInvoker(delegate () { LogsWindow.AppendText("+ one descendant\n"); })));
                                     Sheet.DrawRectangle(some.pen, some.rectangle);
                                 }
                         }
 
-                }
-                ind.IsChecked = true;
-            }
                     }
+                    ind.IsChecked = true;
+                }
+            }
             Thread.Sleep(10);
         }
     }
