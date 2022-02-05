@@ -18,8 +18,14 @@ namespace GeneticAlgorithm
             InitializeComponent();
             Sheet = this.CreateGraphics();
             PreSeed();
-            Task.Run(CheckNew);
+            Evolution();
         }
+
+        public async void Evolution()
+        {
+            await Task.Run(() => CheckNew());
+        }
+
         public void PreSeed()
         {
             List<Individual> lst1 = new List<Individual>();
@@ -76,25 +82,29 @@ namespace GeneticAlgorithm
 
         private void PaintInd(object sender, PaintEventArgs e)
         {
-            int q = 0;
-            while (q < 1000)
+            // here is a bug from microsoft side - e.Graphics produces outOfMemoryException, because its uses in different thread.
+            Task.Run(() => 
             {
-                e.Graphics.Clear(Color.White);
-                foreach (IEnumerable<Individual> pop in population.Areas)
+                int q = 0;
+                while (q < 1000)
                 {
-                    foreach (Individual ind in pop)
+                    e.Graphics.Clear(Color.White);
+                    foreach (IEnumerable<Individual> pop in population.Areas)
                     {
-                        ind.Update();
-                        ind.LifeTime--;
-                        e.Graphics.DrawRectangle(ind.pen, ind.rectangle);
-                        ind.IsChecked = false;
+                        foreach (Individual ind in pop)
+                        {
+                            ind.Update();
+                            ind.LifeTime--;
+                            e.Graphics.DrawRectangle(ind.pen, ind.rectangle);
+                            ind.IsChecked = false;
+                        }
                     }
+                    Thread.Sleep(15);
+                    q++;
                 }
-                Thread.Sleep(15);
-                q++;
-            }
-
+            });
         }
+
         public Color ColorOfRegion(Point p)
         {
             int reg = 0;
@@ -149,7 +159,7 @@ namespace GeneticAlgorithm
                     ind.IsChecked = true;
                 }
             }
-            Thread.Sleep(10);
+            //Thread.Sleep(10);
         }
     }
 }

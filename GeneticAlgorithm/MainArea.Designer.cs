@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainArea));
             this.LogsWindow = new System.Windows.Forms.RichTextBox();
             this.SuspendLayout();
             // 
@@ -45,6 +46,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(884, 461);
             this.Controls.Add(this.LogsWindow);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainArea";
             this.Text = "Form1";
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.PaintInd);
