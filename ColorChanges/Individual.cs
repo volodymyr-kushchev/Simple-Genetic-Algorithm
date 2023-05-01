@@ -212,6 +212,7 @@ namespace ColorChanges
             return Chield;
         }
 
+        // TODO: move out this method from this class.
         public void Update()
         {
             int rnd;

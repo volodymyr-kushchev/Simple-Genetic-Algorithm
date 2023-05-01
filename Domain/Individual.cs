@@ -1,8 +1,6 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
 
-
-namespace GeneticAlgorithm
+namespace Domain
 { 
     public static class Direction
     {

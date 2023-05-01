@@ -1,29 +1,71 @@
-﻿using System.Collections.Generic;
-using System.Windows.Forms;
-using System.Drawing;
-using System.Threading;
-using System;
-using System.Threading.Tasks;
+using Domain;
+using Infrastructure;
+using Serilog.Core;
+using Serilog;
 
-namespace GeneticAlgorithm
+namespace Vizualization
 {
     public partial class MainArea : Form
     {
         Population population = new Population();
         Graphics Sheet;
+
+        // TODO: move to constant
         Color[] ColorArea = new Color[6];
-        object loker = new object();
+        Logger logger;
+
+        object locker = new object();
+
         public MainArea()
         {
+            InitializeLogger();
             InitializeComponent();
             Sheet = this.CreateGraphics();
             PreSeed();
             Evolution();
+            InitializeTick();
         }
 
         public async void Evolution()
         {
-            await Task.Run(() => CheckNew());
+            population.onDieIndividual += (obj, arg) =>
+            {
+                logger.Information("One individual has died");
+            };
+
+            population.onBornIndividual += (obj, arg) =>
+            {
+                logger.Information("One individual has bord");
+            };
+        }
+
+        private void InitializeTick()
+        {
+            var timer = new System.Windows.Forms.Timer();
+            timer.Interval = 45;
+
+            timer.Tick += UpdatePopulation;
+
+            timer.Start();
+
+            var timerForEvolution = new System.Windows.Forms.Timer();
+            timerForEvolution.Interval = 1000;
+
+            timerForEvolution.Tick += (sender, e) => { Task.Run(() => CheckNew()); };
+
+            timerForEvolution.Start();
+        }
+
+        private void InitializeLogger()
+        {
+            string filePath = Directory.GetCurrentDirectory();
+            filePath = Path.Combine(filePath, "logs.txt");
+
+            logger = new LoggerConfiguration()
+                    .WriteTo.File(filePath)
+                    .CreateLogger();
+
+            LogWatcher.WatchLogs(filePath);
         }
 
         public void PreSeed()
@@ -80,29 +122,22 @@ namespace GeneticAlgorithm
             lst6.Clear();
         }
 
-        private void PaintInd(object sender, PaintEventArgs e)
+        private void UpdatePopulation(object sender, EventArgs e)
         {
-            // here is a bug from microsoft side - e.Graphics produces outOfMemoryException, because its uses in different thread.
-            Task.Run(() => 
+            lock (locker)
             {
-                int q = 0;
-                while (q < 1000)
+                Sheet.Clear(Color.White);
+                foreach (IEnumerable<Individual> pop in population.Areas)
                 {
-                    e.Graphics.Clear(Color.White);
-                    foreach (IEnumerable<Individual> pop in population.Areas)
+                    foreach (Individual ind in pop)
                     {
-                        foreach (Individual ind in pop)
-                        {
-                            ind.Update();
-                            ind.LifeTime--;
-                            e.Graphics.DrawRectangle(ind.pen, ind.rectangle);
-                            ind.IsChecked = false;
-                        }
+                        ind.Update();
+                        ind.LifeTime--;
+                        Sheet.DrawRectangle(ind.pen, ind.rectangle);
+                        ind.IsChecked = false;
                     }
-                    Thread.Sleep(15);
-                    q++;
                 }
-            });
+            }
         }
 
         public Color ColorOfRegion(Point p)
@@ -131,17 +166,17 @@ namespace GeneticAlgorithm
         }
         public void CheckNew()
         {
-            lock (loker)
+            lock (locker)
             {
-                for (int i = 0; i < population.Areas.Count - 1; i++)
+                for (int i = 0; i < population.Areas.Count; i++)
                 {
-                    Individual ind = population.Areas[i][0];
+                    Individual ind = population.Areas[i].Count > 0 ? population.Areas[i][0] : null;
                     for (int j = 0; j < population.Areas[i].Count; j++)
                     {
                         if (population.Areas[i][j].LifeTime < 0)
                         {
                             Individual ind2 = population.Areas[i][j];
-                            population.Areas[i].Remove(ind2);
+                            population.RemoveIndividual(i, ind2);
                         }
                         else
                         {
@@ -149,17 +184,16 @@ namespace GeneticAlgorithm
                                 if (Math.Sqrt(Math.Pow(ind.Center.X - population.Areas[i][j].Center.X, 2) + Math.Pow(ind.Center.Y - population.Areas[i][j].Center.Y, 2)) < ind.size)
                                 {
                                     Individual some = ind.GenerateDescendant(ind, population.Areas[i][j], ColorOfRegion(ind.Center));
-                                    population.Areas[i].Add(some);
-                                    LogsWindow.Invoke((new MethodInvoker(delegate () { LogsWindow.AppendText("+ one descendant\n"); })));
-                                    Sheet.DrawRectangle(some.pen, some.rectangle);
+                                    population.AddIndividual(i, some);
                                 }
                         }
-
                     }
-                    ind.IsChecked = true;
+                    if (ind != null)
+                    {
+                        ind.IsChecked = true;
+                    }
                 }
             }
-            //Thread.Sleep(10);
         }
     }
 }
