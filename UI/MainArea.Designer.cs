@@ -1,5 +1,5 @@
-﻿namespace Vizualization
-{
+﻿namespace UI;
+
     partial class MainArea
     {
         /// <summary>
@@ -44,4 +44,3 @@
 
         #endregion
     }
-}

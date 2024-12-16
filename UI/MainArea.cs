@@ -1,41 +1,41 @@
 using Domain;
 using Infrastructure;
-using Serilog.Core;
 using Serilog;
+using Serilog.Core;
 
-namespace Vizualization
+namespace UI
 {
     public partial class MainArea : Form
     {
-        Population population = new Population();
-        Graphics Sheet;
+        private readonly Population _population = new Population();
+        private readonly Graphics _sheet;
 
         // TODO: move to constant
-        Color[] ColorArea = new Color[6];
-        Logger logger;
+        private readonly Color[] _colorArea = new Color[6];
+        private Logger _logger;
 
-        object locker = new object();
+        private readonly object _locker = new object();
 
         public MainArea()
         {
             InitializeLogger();
             InitializeComponent();
-            Sheet = this.CreateGraphics();
+            _sheet = this.CreateGraphics();
             PreSeed();
             Evolution();
             InitializeTick();
         }
 
-        public async void Evolution()
+        private async void Evolution()
         {
-            population.onDieIndividual += (obj, arg) =>
+            _population.OnDieIndividual += (obj, arg) =>
             {
-                logger.Information("One individual has died");
+                _logger.Information("One individual has died");
             };
 
-            population.onBornIndividual += (obj, arg) =>
+            _population.OnBornIndividual += (obj, arg) =>
             {
-                logger.Information("One individual has bord");
+                _logger.Information("One individual has born");
             };
         }
 
@@ -61,7 +61,7 @@ namespace Vizualization
             string filePath = Directory.GetCurrentDirectory();
             filePath = Path.Combine(filePath, "logs.txt");
 
-            logger = new LoggerConfiguration()
+            _logger = new LoggerConfiguration()
                     .WriteTo.File(filePath)
                     .CreateLogger();
 
@@ -76,64 +76,64 @@ namespace Vizualization
             List<Individual> lst4 = new List<Individual>();
             List<Individual> lst5 = new List<Individual>();
             List<Individual> lst6 = new List<Individual>();
-            ColorArea[0] = Color.Red;
-            ColorArea[1] = Color.SlateGray;
-            ColorArea[2] = Color.Black;
-            ColorArea[3] = Color.Green;
-            ColorArea[4] = Color.Gold;
-            ColorArea[5] = Color.Yellow;
+            _colorArea[0] = Color.Red;
+            _colorArea[1] = Color.SlateGray;
+            _colorArea[2] = Color.Black;
+            _colorArea[3] = Color.Green;
+            _colorArea[4] = Color.Gold;
+            _colorArea[5] = Color.Yellow;
             for (int i = 0; i < 2; i++)
             {
                 Individual ind = new Individual(new Point(i * 10 + 100, i * 10 + 300), Color.Red);
                 lst1.Add(ind);
             }
-            population.Areas[0] = lst1;
+            _population.Areas[0] = lst1;
             for (int i = 0; i < 2; i++)
             {
                 Individual ind = new Individual(new Point(i * 20 + 100, i * 20 + 300), Color.SlateGray);
                 lst2.Add(ind);
             }
-            population.Areas[1] = lst2;
+            _population.Areas[1] = lst2;
 
             for (int i = 0; i < 1; i++)
             {
                 Individual ind = new Individual(new Point(i * 70 + 500, i * 35 + 200), Color.Black);
                 lst3.Add(ind);
             }
-            population.Areas[2] = lst3;
+            _population.Areas[2] = lst3;
             for (int i = 0; i < 2; i++)
             {
                 Individual ind = new Individual(new Point(i * 80 + 30, i * 60 + 300), Color.Green);
                 lst4.Add(ind);
             }
-            population.Areas[3] = lst4;
+            _population.Areas[3] = lst4;
             for (int i = 0; i < 2; i++)
             {
                 Individual ind = new Individual(new Point(i * 50 + 200, i * 40 + 160), Color.Gold);
                 lst5.Add(ind);
             }
-            population.Areas[4] = lst5;
+            _population.Areas[4] = lst5;
             for (int i = 0; i < 2; i++)
             {
                 Individual ind = new Individual(new Point(i * 60 + 300, i * 70), Color.Yellow);
                 lst6.Add(ind);
             }
-            population.Areas[5] = lst6;
+            _population.Areas[5] = lst6;
             lst6.Clear();
         }
 
         private void UpdatePopulation(object sender, EventArgs e)
         {
-            lock (locker)
+            lock (_locker)
             {
-                Sheet.Clear(Color.White);
-                foreach (IEnumerable<Individual> pop in population.Areas)
+                _sheet.Clear(Color.White);
+                foreach (IEnumerable<Individual> pop in _population.Areas)
                 {
                     foreach (Individual ind in pop)
                     {
                         ind.Update();
                         ind.LifeTime--;
-                        Sheet.DrawRectangle(ind.pen, ind.rectangle);
+                        _sheet.DrawRectangle(ind.Pen, ind.Rectangle);
                         ind.IsChecked = false;
                     }
                 }
@@ -162,29 +162,29 @@ namespace Vizualization
                 else { reg = 0; }
             }
 
-            return ColorArea[reg];
+            return _colorArea[reg];
         }
         public void CheckNew()
         {
-            lock (locker)
+            lock (_locker)
             {
-                for (int i = 0; i < population.Areas.Count; i++)
+                for (int i = 0; i < _population.Areas.Count; i++)
                 {
-                    Individual ind = population.Areas[i].Count > 0 ? population.Areas[i][0] : null;
-                    for (int j = 0; j < population.Areas[i].Count; j++)
+                    Individual ind = _population.Areas[i].Count > 0 ? _population.Areas[i][0] : null;
+                    for (int j = 0; j < _population.Areas[i].Count; j++)
                     {
-                        if (population.Areas[i][j].LifeTime < 0)
+                        if (_population.Areas[i][j].LifeTime < 0)
                         {
-                            Individual ind2 = population.Areas[i][j];
-                            population.RemoveIndividual(i, ind2);
+                            Individual ind2 = _population.Areas[i][j];
+                            _population.RemoveIndividual(i, ind2);
                         }
                         else
                         {
-                            if (!population.Areas[i][j].IsChecked)
-                                if (Math.Sqrt(Math.Pow(ind.Center.X - population.Areas[i][j].Center.X, 2) + Math.Pow(ind.Center.Y - population.Areas[i][j].Center.Y, 2)) < ind.size)
+                            if (!_population.Areas[i][j].IsChecked)
+                                if (Math.Sqrt(Math.Pow(ind.Center.X - _population.Areas[i][j].Center.X, 2) + Math.Pow(ind.Center.Y - _population.Areas[i][j].Center.Y, 2)) < ind.Size)
                                 {
-                                    Individual some = ind.GenerateDescendant(ind, population.Areas[i][j], ColorOfRegion(ind.Center));
-                                    population.AddIndividual(i, some);
+                                    Individual some = ind.GenerateDescendant(ind, _population.Areas[i][j], ColorOfRegion(ind.Center));
+                                    _population.AddIndividual(i, some);
                                 }
                         }
                     }

@@ -5,9 +5,9 @@
         // TODO: make this property private
         public List<List<Individual>> Areas = new List<List<Individual>>();
 
-        public event EventHandler onBornIndividual;
+        public event EventHandler OnBornIndividual;
 
-        public event EventHandler onDieIndividual;
+        public event EventHandler OnDieIndividual;
 
 
         // TODO: make it parametrized depended on count of areas
@@ -29,7 +29,7 @@
             }
 
             Areas[areaCode].Add(individual);
-            onBornIndividual?.Invoke(this, EventArgs.Empty);
+            OnBornIndividual?.Invoke(this, EventArgs.Empty);
         }
 
         public void RemoveIndividual(int areaCode, Individual individual)
@@ -40,7 +40,7 @@
             }
 
             Areas[areaCode].Remove(individual);
-            onDieIndividual?.Invoke(this, EventArgs.Empty);
+            OnDieIndividual?.Invoke(this, EventArgs.Empty);
         }
     }
 }
