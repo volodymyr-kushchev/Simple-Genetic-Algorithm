@@ -1,46 +1,40 @@
-﻿namespace Domain
+﻿namespace Domain;
+
+public class Population(int count)
 {
-    public class Population
+    public readonly List<List<Individual>> Areas = Enumerable.Range(0, count)
+        .Select(_ => new List<Individual>())
+        .ToList();
+    
+    private const int DefaultPopulationSize = 6;
+
+    public event EventHandler? OnBornIndividual;
+
+    public event EventHandler? OnDieIndividual;
+
+    public Population() : this(DefaultPopulationSize)
     {
-        // TODO: make this property private
-        public List<List<Individual>> Areas = new List<List<Individual>>();
+    }
 
-        public event EventHandler OnBornIndividual;
-
-        public event EventHandler OnDieIndividual;
-
-
-        // TODO: make it parametrized depended on count of areas
-        public Population()
+    public void AddIndividual(int areaCode, Individual individual)
+    {
+        if (areaCode > Areas.Count || areaCode < 0)
         {
-            Areas.Add(new List<Individual>());
-            Areas.Add(new List<Individual>());
-            Areas.Add(new List<Individual>());
-            Areas.Add(new List<Individual>());
-            Areas.Add(new List<Individual>());
-            Areas.Add(new List<Individual>());
+            return;
         }
 
-        public void AddIndividual(int areaCode, Individual individual)
-        {
-            if (areaCode > Areas.Count || areaCode < 0)
-            {
-                return;
-            }
+        Areas[areaCode].Add(individual);
+        OnBornIndividual?.Invoke(this, EventArgs.Empty);
+    }
 
-            Areas[areaCode].Add(individual);
-            OnBornIndividual?.Invoke(this, EventArgs.Empty);
+    public void RemoveIndividual(int areaCode, Individual individual)
+    {
+        if (areaCode > Areas.Count || areaCode < 0)
+        {
+            return;
         }
 
-        public void RemoveIndividual(int areaCode, Individual individual)
-        {
-            if (areaCode > Areas.Count || areaCode < 0)
-            {
-                return;
-            }
-
-            Areas[areaCode].Remove(individual);
-            OnDieIndividual?.Invoke(this, EventArgs.Empty);
-        }
+        Areas[areaCode].Remove(individual);
+        OnDieIndividual?.Invoke(this, EventArgs.Empty);
     }
 }
