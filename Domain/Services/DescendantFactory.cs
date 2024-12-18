@@ -4,7 +4,7 @@ using Domain.Models;
 
 namespace Domain.Services;
 
-public class DescendantFactory : IDescendantFactory
+public class DescendantFactory(IRandomProvider randomProvider) : IDescendantFactory
 {
     private const Strategy Strategy = Model.Strategy.BaseGeneticAlgorithm;
 
@@ -17,7 +17,7 @@ public class DescendantFactory : IDescendantFactory
         };
     }
     
-    private static Individ ApplyMutation(Individ parent1, Individ parent2, Color targetColor)
+    private Individ ApplyMutation(Individ parent1, Individ parent2, Color targetColor)
     {
         var mutation = InitializeMutation(parent1, parent2);
 
@@ -103,11 +103,11 @@ public class DescendantFactory : IDescendantFactory
         }
     }
 
-    private static MutationContext InitializeMutation(Individ parent1, Individ parent2) =>
+    private MutationContext InitializeMutation(Individ parent1, Individ parent2) =>
         new MutationContext(
             parent1,
             parent2,
             new bool[Constants.ChromosomeSize],
             new bool[Constants.ChromosomeSize],
-            new Individ(new Point(), Color.White));
+            new Individ(randomProvider, new Point(), Color.White));
 }

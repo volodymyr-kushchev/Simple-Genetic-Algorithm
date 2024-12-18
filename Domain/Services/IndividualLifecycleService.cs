@@ -21,7 +21,7 @@ public class IndividualLifecycleService(IDescendantFactory descendantFactory) : 
                 {
                     if (!population.Areas[i][j].IsChecked && ind is not null)
                         if (Math.Sqrt(Math.Pow(ind.Center.X - population.Areas[i][j].Center.X, 2) +
-                                      Math.Pow(ind.Center.Y - population.Areas[i][j].Center.Y, 2)) < ind.Size)
+                                      Math.Pow(ind.Center.Y - population.Areas[i][j].Center.Y, 2)) < Individ.Size)
                         {
                             var some = descendantFactory.GenerateDescendant(ind, population.Areas[i][j],
                                 colorOfRegion(ind.Center));

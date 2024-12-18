@@ -9,6 +9,7 @@ public static class ServiceRegistry
     {
         services.AddTransient<IIndividualLifecycleService, IndividualLifecycleService>();
         services.AddTransient<IDescendantFactory, DescendantFactory>();
+        services.AddSingleton<IRandomProvider, RandomProvider>();
         
         return services;
     }
