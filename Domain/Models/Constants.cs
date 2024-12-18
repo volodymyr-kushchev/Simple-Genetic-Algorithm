@@ -2,5 +2,5 @@ namespace Domain.Models;
 
 public static class Constants
 {
-    public static int ChromosomeSize = 32;
+    public const int ChromosomeSize = 32;
 }

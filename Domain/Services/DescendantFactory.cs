@@ -12,79 +12,102 @@ public class DescendantFactory : IDescendantFactory
     {
         return Strategy switch
         {
-            Strategy.BaseGeneticAlgorithm => UseBaseGenetic(parent1, parent2, targetColor),
-            _ => UseBaseGenetic(parent1, parent2, targetColor)
+            Strategy.BaseGeneticAlgorithm => ApplyMutation(parent1, parent2, targetColor),
+            _ => ApplyMutation(parent1, parent2, targetColor)
         };
     }
-
-    private static Individual UseBaseGenetic(Individual parent1, Individual parent2, Color targetColor)
+    
+    private static Individual ApplyMutation(Individual parent1, Individual parent2, Color targetColor)
     {
-        parent1.IsChecked = true;
-        parent2.IsChecked = true;
+        var mutation = InitializeMutation(parent1, parent2);
 
-        var chield = new Individual(new Point(), Color.White);
+        mutation.Parent1.IsChecked = true;
+        mutation.Parent2.IsChecked = true;
         // Кросинговер определяем точку разрыва
+        CrossingOver(mutation);
+        // Мутация - замена случайного бита
+        Mutation(mutation);
+        // проверка на живучость
+        SurvivabilityTest(mutation, targetColor);
+
+        return mutation.Child;
+    }
+
+    private static void CrossingOver(MutationContext mutation)
+    {
         var rand = new Random();
-        var breakPoint = rand.Next(2, 30);
-        var chield1 = new bool[Constants.ChromosomeSize];
-        var chield2 = new bool[Constants.ChromosomeSize];
-        for (var i = 0; i < breakPoint; i++) 
+        var breakPoint = rand.Next(2, Constants.ChromosomeSize - 2);
+        for (var i = 0; i < breakPoint; i++)
         {
-            chield1[i] = parent1.Chromosome[i];
-            chield2[i] = parent2.Chromosome[i];
+            mutation.Child1[i] = mutation.Parent1.Chromosome[i];
+            mutation.Child2[i] = mutation.Parent2.Chromosome[i];
         }
-        for (var j = breakPoint; j < Constants.ChromosomeSize; j++) 
+
+        for (var j = breakPoint; j < Constants.ChromosomeSize; j++)
         {
-            chield1[j] = parent2.Chromosome[j];
-            chield2[j] = parent1.Chromosome[j];
+            mutation.Child1[j] = mutation.Parent2.Chromosome[j];
+            mutation.Child2[j] = mutation.Parent1.Chromosome[j];
         }
-        // Мутация - замена случайного бита 
-        // Задаем вероятность мутации для каждого из потомков
-        double mutationProb = rand.Next(1, 10) / 10;// Вероятность мутации 
-        var randDouble = new Random(rand.Next(1,100));
+    }
+
+    private static void Mutation(MutationContext mutation)
+    {
+        var rand = new Random();
+        var mutationProb = rand.Next(1, 10) / 10.0; // Вероятность мутации 
+        var randDouble = new Random(rand.Next(1, 100));
         var mutationProb1 = randDouble.NextDouble();
         var mutationProb2 = randDouble.NextDouble();
         // Задаем случайный номер бита для замены
-        // не учитываем первый и последний
-        var bit1 = rand.Next(0, 31);
-        var bit2 = rand.Next(0, 31);
+        var bit1 = rand.Next(0, Constants.ChromosomeSize - 1);
+        var bit2 = rand.Next(0, Constants.ChromosomeSize - 1);
         if (mutationProb1 < mutationProb)
         {
-            chield1[bit1] = !chield1[bit1];
+            mutation.Child1[bit1] = !mutation.Child1[bit1];
         }
+
         if (mutationProb2 < mutationProb)
         {
-            chield2[bit2] = !chield2[bit2];
+            mutation.Child1[bit2] = !mutation.Child1[bit2];
         }
-        //// проверка на живучость
-        var num1 = Convert.ToInt32(Converter.FromBoolToColor(chield1).ToArgb());
-        var num2 = Convert.ToInt32(Converter.FromBoolToColor(chield2).ToArgb());
+    }
+
+    private static void SurvivabilityTest(MutationContext mutation, Color targetColor)
+    {
+        var num1 = Convert.ToInt32(Converter.FromBoolToColor(mutation.Child1).ToArgb());
+        var num2 = Convert.ToInt32(Converter.FromBoolToColor(mutation.Child2).ToArgb());
         // Целевая функция близость кода цвета к коду цвета региона в котором находятся родители
         var regionColor = targetColor.ToArgb();
         if (Math.Abs(num1 - regionColor) < Math.Abs(num2 - regionColor))
         {
             for (var i = 0; i < 32; i++)
-                chield.Chromosome[i] = chield1[i];
-            chield.BitesColor = num1;
-            chield.Center = parent1.Center;
-            chield.Center.X += 30;
-            chield.Center.Y += 10;
-            var col = Converter.FromBoolToColor(chield1);
-            chield.Pen.Color = col;
-            chield.ColorOfInd = col;
+                mutation.Child.Chromosome[i] = mutation.Child1[i];
+            mutation.Child.BitesColor = num1;
+            mutation.Child.Center = mutation.Parent1.Center;
+            mutation.Child.Center.X += 30;
+            mutation.Child.Center.Y += 10;
+            var col = Converter.FromBoolToColor(mutation.Child1);
+            mutation.Child.Pen.Color = col;
+            mutation.Child.ColorOfInd = col;
         }
         else
         {
             for (var i = 0; i < 32; i++)
-                chield.Chromosome[i] = chield2[i];
-            chield.BitesColor = num2;
-            chield.Center = parent2.Center;
-            chield.Center.X += 30;
-            chield.Center.Y += 10;
-            var col = Converter.FromBoolToColor(chield2);
-            chield.Pen.Color = col;
-            chield.ColorOfInd = col;
+                mutation.Child.Chromosome[i] = mutation.Child2[i];
+            mutation.Child.BitesColor = num2;
+            mutation.Child.Center = mutation.Parent2.Center;
+            mutation.Child.Center.X += 30;
+            mutation.Child.Center.Y += 10;
+            var col = Converter.FromBoolToColor(mutation.Child2);
+            mutation.Child.Pen.Color = col;
+            mutation.Child.ColorOfInd = col;
         }
-        return chield; 
     }
+
+    private static MutationContext InitializeMutation(Individual parent1, Individual parent2) =>
+        new MutationContext(
+            parent1,
+            parent2,
+            new bool[Constants.ChromosomeSize],
+            new bool[Constants.ChromosomeSize],
+            new Individual(new Point(), Color.White));
 }
