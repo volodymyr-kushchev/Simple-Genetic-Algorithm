@@ -5,5 +5,5 @@ namespace Domain.Services;
 
 public interface IDescendantFactory
 {
-    Individual GenerateDescendant(Individual parent1, Individual parent2, Color targetColor);
+    Individ GenerateDescendant(Individ parent1, Individ parent2, Color targetColor);
 }

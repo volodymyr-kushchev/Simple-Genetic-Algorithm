@@ -2,8 +2,8 @@
 
 public class Population(int count)
 {
-    public readonly List<List<Individual>> Areas = Enumerable.Range(0, count)
-        .Select(_ => new List<Individual>())
+    public readonly List<List<Individ>> Areas = Enumerable.Range(0, count)
+        .Select(_ => new List<Individ>())
         .ToList();
     
     private const int DefaultPopulationSize = 6;
@@ -16,25 +16,25 @@ public class Population(int count)
     {
     }
 
-    public void AddIndividual(int areaCode, Individual individual)
+    public void AddIndividual(int areaCode, Individ individ)
     {
         if (areaCode > Areas.Count || areaCode < 0)
         {
             return;
         }
 
-        Areas[areaCode].Add(individual);
+        Areas[areaCode].Add(individ);
         OnBornIndividual?.Invoke(this, EventArgs.Empty);
     }
 
-    public void RemoveIndividual(int areaCode, Individual individual)
+    public void RemoveIndividual(int areaCode, Individ individ)
     {
         if (areaCode > Areas.Count || areaCode < 0)
         {
             return;
         }
 
-        Areas[areaCode].Remove(individual);
+        Areas[areaCode].Remove(individ);
         OnDieIndividual?.Invoke(this, EventArgs.Empty);
     }
 }

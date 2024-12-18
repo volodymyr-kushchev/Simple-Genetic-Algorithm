@@ -3,7 +3,7 @@ using Domain.Services;
 
 namespace Domain.Models;
 
-public class Individual
+public class Individ
 {
     const int ChromosomeSize = 32;
     public int LifeTime { get; set; }
@@ -23,13 +23,13 @@ public class Individual
     public Pen Pen;
     public Size S;
 
-    public Individual(Point center, Color color)
+    public Individ(Point center, Color color)
     {
         ColorOfInd = color;
         LifeTime = 200;
         IsChecked = false;
         BitesColor = 0;
-        Array.Copy(FromColorToBool(color), Chromosome, ChromosomeSize);
+        Array.Copy(Converter.FromColorToBool(color), Chromosome, ChromosomeSize);
         Center = center;
         S.Height = Size;
         S.Width = Size;
@@ -42,48 +42,6 @@ public class Individual
     {
         Center = p;
         Rectangle = new Rectangle(Center, S);
-    }
-    // Gets bool array represents 32 bits color and convert into struct color
-    // Returns Color
-    private Color FromBoolToColor(bool[] arr)
-    {
-        var res = new bool[32];
-        bool[] b0 = new bool[8], b1 = new bool[8], b2 = new bool[8], b3 = new bool[8];
-        for (var i = 0; i < 8; i++)
-            b0[i] = arr[i];
-        for (var i = 8; i < 16; i++)
-            b1[(i - 8)] = arr[i];
-        for (var i = 16; i < 24; i++)
-            b2[(i - 16)] = arr[i];
-        for (var i = 24; i < 32; i++)
-            b3[(i - 24)] = arr[i];
-        var n0 = Convert.ToInt32(Converter.ConvertBoolArrayToByte(b0));
-        var n1 = Convert.ToInt32(Converter.ConvertBoolArrayToByte(b1));
-        var n2 = Convert.ToInt32(Converter.ConvertBoolArrayToByte(b2));
-        var n3 = Convert.ToInt32(Converter.ConvertBoolArrayToByte(b3));
-        var color = Color.FromArgb(n0, n1, n2, n3);
-        return color;
-
-    }
-    // Gets color and convert to bool array 
-    // Returns bool array
-    public bool[] FromColorToBool(Color color)
-    {
-        var res = new bool[ChromosomeSize];
-        var b0 = Converter.ConvertByteToBoolArray(color.A);
-        for (var i = 0; i < 8; i++)
-            res[i] = b0[i];
-        var b1 = Converter.ConvertByteToBoolArray(color.R);
-        for (var i = 8; i < 16; i++)
-            res[i] = b1[(i - 8)];
-        var b2 = Converter.ConvertByteToBoolArray(color.G);
-        for (var i = 16; i < 24; i++)
-            res[i] = b2[(i - 16)];
-        var b3 = Converter.ConvertByteToBoolArray(color.B);
-        for (var i = 24; i < 32; i++)
-            res[i] = b3[(i - 24)];
-        return res;
-
     }
     
     public void Update()

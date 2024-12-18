@@ -1,4 +1,5 @@
 using System.Drawing;
+using Domain.Models;
 
 namespace Domain.Services;
 
@@ -21,6 +22,25 @@ public static class Converter
         var n3 = Convert.ToInt32(ConvertBoolArrayToByte(b3));
         var color = Color.FromArgb(n0, n1, n2, n3);
         return color;
+    }
+    
+    public static bool[] FromColorToBool(Color color)
+    {
+        var res = new bool[Constants.ChromosomeSize];
+        var b0 = ConvertByteToBoolArray(color.A);
+        for (var i = 0; i < 8; i++)
+            res[i] = b0[i];
+        var b1 = ConvertByteToBoolArray(color.R);
+        for (var i = 8; i < 16; i++)
+            res[i] = b1[(i - 8)];
+        var b2 = ConvertByteToBoolArray(color.G);
+        for (var i = 16; i < 24; i++)
+            res[i] = b2[(i - 16)];
+        var b3 = ConvertByteToBoolArray(color.B);
+        for (var i = 24; i < 32; i++)
+            res[i] = b3[(i - 24)];
+        
+        return res;
     }
     
     public static byte ConvertBoolArrayToByte(bool[] source)

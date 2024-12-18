@@ -8,7 +8,7 @@ public class DescendantFactory : IDescendantFactory
 {
     private const Strategy Strategy = Model.Strategy.BaseGeneticAlgorithm;
 
-    public Individual GenerateDescendant(Individual parent1, Individual parent2, Color targetColor)
+    public Individ GenerateDescendant(Individ parent1, Individ parent2, Color targetColor)
     {
         return Strategy switch
         {
@@ -17,7 +17,7 @@ public class DescendantFactory : IDescendantFactory
         };
     }
     
-    private static Individual ApplyMutation(Individual parent1, Individual parent2, Color targetColor)
+    private static Individ ApplyMutation(Individ parent1, Individ parent2, Color targetColor)
     {
         var mutation = InitializeMutation(parent1, parent2);
 
@@ -103,11 +103,11 @@ public class DescendantFactory : IDescendantFactory
         }
     }
 
-    private static MutationContext InitializeMutation(Individual parent1, Individual parent2) =>
+    private static MutationContext InitializeMutation(Individ parent1, Individ parent2) =>
         new MutationContext(
             parent1,
             parent2,
             new bool[Constants.ChromosomeSize],
             new bool[Constants.ChromosomeSize],
-            new Individual(new Point(), Color.White));
+            new Individ(new Point(), Color.White));
 }

@@ -21,5 +21,6 @@ Exmaples of work:<br/>
 TODO: 
 
  - Add unit tests
+ - Replace WinForms with MAUI and use graphics for visualization.
  - Change shape to circles
- - Fix issues with ui lag between iterations / generations
+ - Fix issues with ui lag between iterations / generations. It called flickering. Need to use MAUI framework for visualization.

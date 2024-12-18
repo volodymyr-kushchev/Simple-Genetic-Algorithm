@@ -54,12 +54,12 @@ public partial class MainArea : Form
 
     private void PreSeed()
     {
-        var lst1 = new List<Individual>();
-        List<Individual> lst2 = [];
-        List<Individual> lst3 = [];
-        List<Individual> lst4 = [];
-        List<Individual> lst5 = [];
-        List<Individual> lst6 = [];
+        var lst1 = new List<Individ>();
+        List<Individ> lst2 = [];
+        List<Individ> lst3 = [];
+        List<Individ> lst4 = [];
+        List<Individ> lst5 = [];
+        List<Individ> lst6 = [];
         _coloredAreas.Add(0, Color.Red);
         _coloredAreas.Add(1, Color.SlateGray);
         _coloredAreas.Add(2, Color.Black);
@@ -69,14 +69,14 @@ public partial class MainArea : Form
 
         for (var i = 0; i < 2; i++)
         {
-            var ind = new Individual(new Point(i * 10 + 100, i * 10 + 300), _coloredAreas[0]);
+            var ind = new Individ(new Point(i * 10 + 100, i * 10 + 300), _coloredAreas[0]);
             lst1.Add(ind);
         }
 
         _population.Areas[0] = lst1;
         for (var i = 0; i < 2; i++)
         {
-            var ind = new Individual(new Point(i * 20 + 100, i * 20 + 300), _coloredAreas[1]);
+            var ind = new Individ(new Point(i * 20 + 100, i * 20 + 300), _coloredAreas[1]);
             lst2.Add(ind);
         }
 
@@ -84,28 +84,28 @@ public partial class MainArea : Form
 
         for (var i = 0; i < 1; i++)
         {
-            var ind = new Individual(new Point(i * 70 + 500, i * 35 + 200), _coloredAreas[2]);
+            var ind = new Individ(new Point(i * 70 + 500, i * 35 + 200), _coloredAreas[2]);
             lst3.Add(ind);
         }
 
         _population.Areas[2] = lst3;
         for (var i = 0; i < 2; i++)
         {
-            var ind = new Individual(new Point(i * 80 + 30, i * 60 + 300), _coloredAreas[3]);
+            var ind = new Individ(new Point(i * 80 + 30, i * 60 + 300), _coloredAreas[3]);
             lst4.Add(ind);
         }
 
         _population.Areas[3] = lst4;
         for (var i = 0; i < 2; i++)
         {
-            var ind = new Individual(new Point(i * 50 + 200, i * 40 + 160), _coloredAreas[4]);
+            var ind = new Individ(new Point(i * 50 + 200, i * 40 + 160), _coloredAreas[4]);
             lst5.Add(ind);
         }
 
         _population.Areas[4] = lst5;
         for (var i = 0; i < 2; i++)
         {
-            var ind = new Individual(new Point(i * 60 + 300, i * 70), _coloredAreas[5]);
+            var ind = new Individ(new Point(i * 60 + 300, i * 70), _coloredAreas[5]);
             lst6.Add(ind);
         }
 
@@ -117,7 +117,7 @@ public partial class MainArea : Form
     {
         lock (_locker)
         {
-            foreach (var ind in _population.Areas.Cast<IEnumerable<Individual>>().SelectMany(pop => pop))
+            foreach (var ind in _population.Areas.Cast<IEnumerable<Individ>>().SelectMany(pop => pop))
             {
                 ind.Update();
                 ind.LifeTime--;
@@ -125,7 +125,7 @@ public partial class MainArea : Form
             }
 
             _sheet.Clear(Color.White);
-            foreach (var ind in _population.Areas.Cast<IEnumerable<Individual>>().SelectMany(pop => pop))
+            foreach (var ind in _population.Areas.Cast<IEnumerable<Individ>>().SelectMany(pop => pop))
             {
                 _sheet.DrawRectangle(ind.Pen, ind.Rectangle);
             }
