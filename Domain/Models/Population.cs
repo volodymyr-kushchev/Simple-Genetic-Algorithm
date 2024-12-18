@@ -2,9 +2,7 @@
 
 public class Population(int count)
 {
-    public readonly List<List<Individ>> Areas = Enumerable.Range(0, count)
-        .Select(_ => new List<Individ>())
-        .ToList();
+    public readonly List<Individ> collection = [];
     
     private const int DefaultPopulationSize = 6;
 
@@ -15,26 +13,32 @@ public class Population(int count)
     public Population() : this(DefaultPopulationSize)
     {
     }
-
-    public void AddIndividual(int areaCode, Individ individ)
+    
+    public void AddIndividual(Individ individ)
     {
-        if (areaCode > Areas.Count || areaCode < 0)
-        {
-            return;
-        }
-
-        Areas[areaCode].Add(individ);
+        collection.Add(individ);
         OnBornIndividual?.Invoke(this, EventArgs.Empty);
     }
-
-    public void RemoveIndividual(int areaCode, Individ individ)
+    
+    public void RemoveIndividual(Individ individ)
     {
-        if (areaCode > Areas.Count || areaCode < 0)
-        {
-            return;
-        }
-
-        Areas[areaCode].Remove(individ);
+        collection.Remove(individ);
         OnDieIndividual?.Invoke(this, EventArgs.Empty);
+    }
+
+    public void InsertBatch(IEnumerable<Individ> individuals)
+    {
+        var enumerable = individuals as Individ[] ?? individuals.ToArray();
+        collection.AddRange(enumerable);
+        enumerable.ToList().ForEach(x => OnBornIndividual?.Invoke(this, EventArgs.Empty));
+    }
+    
+    public void RemoveBatch(IEnumerable<Individ> individuals)
+    {
+        foreach (var individ in individuals)
+        {
+            collection.Remove(individ);
+            OnDieIndividual?.Invoke(this, EventArgs.Empty);
+        }
     }
 }

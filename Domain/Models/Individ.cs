@@ -24,10 +24,14 @@ public class Individ
     
     private readonly IRandomProvider _random;
 
-    public Individ(IRandomProvider randomProvider, Point center, Color color)
+    public Individ(IRandomProvider randomProvider, Point center, Color color) 
+        : this(randomProvider, center, color, 200)
+    { }
+
+    public Individ(IRandomProvider randomProvider, Point center, Color color, int lifetime)
     {
         ColorOfInd = color;
-        LifeTime = 200;
+        LifeTime = lifetime;
         IsChecked = false;
         BitesColor = 0;
         Array.Copy(Converter.FromColorToBool(color), Chromosome, Constants.ChromosomeSize);

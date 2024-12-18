@@ -14,16 +14,16 @@ public partial class MainArea : Form
 
     private readonly object _locker = new object();
 
-    private readonly IIndividualLifecycleService _individualLifecycleService;
+    private readonly IIndividLifecycleService _individLifecycleService;
     private readonly IRandomProvider _randomProvider;
 
-    public MainArea(ILogger logger, IIndividualLifecycleService individualLifecycleService, IRandomProvider randomProvider)
+    public MainArea(ILogger logger, IIndividLifecycleService individLifecycleService, IRandomProvider randomProvider)
     {
         InitializeComponent();
         
         _sheet = this.CreateGraphics();
         _logger = logger;
-        _individualLifecycleService = individualLifecycleService;
+        _individLifecycleService = individLifecycleService;
         _randomProvider = randomProvider;
 
         PreSeed();
@@ -75,52 +75,50 @@ public partial class MainArea : Form
             var ind = new Individ(_randomProvider, new Point(i * 10 + 100, i * 10 + 300), _coloredAreas[0]);
             lst1.Add(ind);
         }
-
-        _population.Areas[0] = lst1;
+        
         for (var i = 0; i < 2; i++)
         {
             var ind = new Individ(_randomProvider, new Point(i * 20 + 100, i * 20 + 300), _coloredAreas[1]);
             lst2.Add(ind);
         }
 
-        _population.Areas[1] = lst2;
-
         for (var i = 0; i < 1; i++)
         {
             var ind = new Individ(_randomProvider, new Point(i * 70 + 500, i * 35 + 200), _coloredAreas[2]);
             lst3.Add(ind);
         }
-
-        _population.Areas[2] = lst3;
+        
         for (var i = 0; i < 2; i++)
         {
             var ind = new Individ(_randomProvider, new Point(i * 80 + 30, i * 60 + 300), _coloredAreas[3]);
             lst4.Add(ind);
         }
-
-        _population.Areas[3] = lst4;
+        
         for (var i = 0; i < 2; i++)
         {
             var ind = new Individ(_randomProvider, new Point(i * 50 + 200, i * 40 + 160), _coloredAreas[4]);
             lst5.Add(ind);
         }
-
-        _population.Areas[4] = lst5;
+        
         for (var i = 0; i < 2; i++)
         {
             var ind = new Individ(_randomProvider, new Point(i * 60 + 300, i * 70), _coloredAreas[5]);
             lst6.Add(ind);
         }
-
-        _population.Areas[5] = lst6;
-        lst6.Clear();
+        
+        _population.InsertBatch(lst1);
+        _population.InsertBatch(lst2);
+        _population.InsertBatch(lst3);
+        _population.InsertBatch(lst4);
+        _population.InsertBatch(lst5);
+        _population.InsertBatch(lst6);
     }
 
     private void UpdatePopulation(object sender, EventArgs e)
     {
         lock (_locker)
         {
-            foreach (var ind in _population.Areas.Cast<IEnumerable<Individ>>().SelectMany(pop => pop))
+            foreach (var ind in _population.collection)
             {
                 ind.Move();
                 ind.LifeTime--;
@@ -128,7 +126,7 @@ public partial class MainArea : Form
             }
 
             _sheet.Clear(Color.White);
-            foreach (var ind in _population.Areas.Cast<IEnumerable<Individ>>().SelectMany(pop => pop))
+            foreach (var ind in _population.collection)
             {
                 _sheet.DrawRectangle(ind.Pen, ind.Rectangle);
             }
@@ -165,7 +163,7 @@ public partial class MainArea : Form
     {
         lock (_locker)
         {
-            _individualLifecycleService.EvaluateLifeStatus(_population, ColorOfRegion);
+            _individLifecycleService.EvaluateLifeStatus(_population, ColorOfRegion);
         }
     }
 }
