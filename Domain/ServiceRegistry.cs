@@ -1,8 +1,10 @@
+using System.Diagnostics.CodeAnalysis;
 using Domain.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Domain;
 
+[ExcludeFromCodeCoverage]
 public static class ServiceRegistry
 {
     public static IServiceCollection RegisterDomain(this IServiceCollection services)

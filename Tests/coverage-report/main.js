@@ -221,16 +221,13 @@ var assemblies = [
   {
     "name": "Domain",
     "classes": [
-      { "name": "Domain.Models.Individ", "rp": "Domain_Individ.html", "cl": 54, "ucl": 28, "cal": 82, "tl": 111, "cb": 17, "tb": 28, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
-      { "name": "Domain.Models.MutationContext", "rp": "Domain_MutationContext.html", "cl": 0, "ucl": 1, "cal": 1, "tl": 3, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
-      { "name": "Domain.Models.Population", "rp": "Domain_Population.html", "cl": 21, "ucl": 11, "cal": 32, "tl": 44, "cb": 6, "tb": 20, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
-      { "name": "Domain.MutationStrategies.GenericAlgoWithColorArea", "rp": "Domain_GenericAlgoWithColorArea.html", "cl": 0, "ucl": 73, "cal": 73, "tl": 100, "cb": 0, "tb": 14, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
-      { "name": "Domain.ServiceRegistry", "rp": "Domain_ServiceRegistry.html", "cl": 0, "ucl": 6, "cal": 6, "tl": 16, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "Domain.Models.Individ", "rp": "Domain_Individ.html", "cl": 40, "ucl": 23, "cal": 63, "tl": 111, "cb": 10, "tb": 17, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "Domain.Models.MutationContext", "rp": "Domain_MutationContext.html", "cl": 1, "ucl": 0, "cal": 1, "tl": 3, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "Domain.Models.Population", "rp": "Domain_Population.html", "cl": 21, "ucl": 4, "cal": 25, "tl": 44, "cb": 6, "tb": 10, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "Domain.MutationStrategies.GenericAlgoWithColorArea", "rp": "Domain_GenericAlgoWithColorArea.html", "cl": 52, "ucl": 19, "cal": 71, "tl": 99, "cb": 8, "tb": 14, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
       { "name": "Domain.Services.Converter", "rp": "Domain_Converter.html", "cl": 53, "ucl": 0, "cal": 53, "tl": 81, "cb": 24, "tb": 24, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
-      { "name": "Domain.Services.DescendantFactory", "rp": "Domain_DescendantFactory.html", "cl": 0, "ucl": 86, "cal": 86, "tl": 32, "cb": 0, "tb": 16, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
-      { "name": "Domain.Services.IndividLifecycleService", "rp": "Domain_IndividLifecycleService.html", "cl": 21, "ucl": 0, "cal": 21, "tl": 40, "cb": 8, "tb": 8, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
-      { "name": "Domain.Services.IndividualLifecycleService", "rp": "Domain_IndividualLifecycleService.html", "cl": 0, "ucl": 29, "cal": 29, "tl": 39, "cb": 0, "tb": 16, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
-      { "name": "Domain.Services.RandomProvider", "rp": "Domain_RandomProvider.html", "cl": 0, "ucl": 3, "cal": 3, "tl": 9, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "Domain.Services.DescendantFactory", "rp": "Domain_DescendantFactory.html", "cl": 15, "ucl": 1, "cal": 16, "tl": 34, "cb": 1, "tb": 2, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "Domain.Services.IndividLifecycleService", "rp": "Domain_IndividLifecycleService.html", "cl": 24, "ucl": 0, "cal": 24, "tl": 40, "cb": 10, "tb": 10, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
     ]},
 ];
 
@@ -245,46 +242,10 @@ var riskHotspotMetrics = [
 
 var riskHotspots = [
   {
-    "assembly": "Domain", "class": "Domain.Services.IndividualLifecycleService", "reportPath": "Domain_IndividualLifecycleService.html", "methodName": "EvaluateLifeStatus(Domain.Models.Population,System.Func`2<System.Drawing.Point,System.Drawing.Color>)", "methodShortName": "EvaluateLifeStatus(...)", "fileIndex": 0, "line": 9,
-    "metrics": [
-      { "value": 272, "exceeded": true },
-      { "value": 16, "exceeded": true },
-    ]},
-  {
-    "assembly": "Domain", "class": "Domain.Models.Individ", "reportPath": "Domain_Individ.html", "methodName": "Move()", "methodShortName": "Move()", "fileIndex": 0, "line": 51,
-    "metrics": [
-      { "value": 53, "exceeded": true },
-      { "value": 17, "exceeded": true },
-    ]},
-  {
     "assembly": "Domain", "class": "Domain.Models.Individ", "reportPath": "Domain_Individ.html", "methodName": "Move()", "methodShortName": "Move()", "fileIndex": 0, "line": 55,
     "metrics": [
       { "value": 53, "exceeded": true },
       { "value": 17, "exceeded": true },
-    ]},
-  {
-    "assembly": "Domain", "class": "Domain.Models.Population", "reportPath": "Domain_Population.html", "methodName": "AddIndividual(System.Int32,Domain.Models.Individ)", "methodShortName": "AddIndividual(...)", "fileIndex": 0, "line": 20,
-    "metrics": [
-      { "value": 42, "exceeded": true },
-      { "value": 6, "exceeded": false },
-    ]},
-  {
-    "assembly": "Domain", "class": "Domain.Models.Population", "reportPath": "Domain_Population.html", "methodName": "RemoveIndividual(System.Int32,Domain.Models.Individ)", "methodShortName": "RemoveIndividual(...)", "fileIndex": 0, "line": 31,
-    "metrics": [
-      { "value": 42, "exceeded": true },
-      { "value": 6, "exceeded": false },
-    ]},
-  {
-    "assembly": "Domain", "class": "Domain.MutationStrategies.GenericAlgoWithColorArea", "reportPath": "Domain_GenericAlgoWithColorArea.html", "methodName": "SurvivabilityTest(Domain.Models.MutationContext,System.Drawing.Color)", "methodShortName": "SurvivabilityTest(...)", "fileIndex": 0, "line": 62,
-    "metrics": [
-      { "value": 42, "exceeded": true },
-      { "value": 6, "exceeded": false },
-    ]},
-  {
-    "assembly": "Domain", "class": "Domain.Services.DescendantFactory", "reportPath": "Domain_DescendantFactory.html", "methodName": "SurvivabilityTest(Domain.Models.MutationContext,System.Drawing.Color)", "methodShortName": "SurvivabilityTest(...)", "fileIndex": 0, "line": 75,
-    "metrics": [
-      { "value": 42, "exceeded": true },
-      { "value": 6, "exceeded": false },
     ]},
 ];
 

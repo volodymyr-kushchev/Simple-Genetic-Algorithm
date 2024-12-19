@@ -66,28 +66,27 @@ public class GenericAlgoWithColorArea(IRandomProvider randomProvider) : IGeneric
         var regionColor = targetColor.ToArgb();
         if (Math.Abs(num1 - regionColor) < Math.Abs(num2 - regionColor))
         {
-            for (var i = 0; i < 32; i++)
+            for (var i = 0; i < Constants.ChromosomeSize; i++)
                 mutation.Child.Chromosome[i] = mutation.Child1[i];
             mutation.Child.BitesColor = num1;
             mutation.Child.Center = mutation.Parent1.Center;
-            mutation.Child.Center.X += 30;
-            mutation.Child.Center.Y += 10;
             var col = Converter.FromBoolToColor(mutation.Child1);
             mutation.Child.Pen.Color = col;
             mutation.Child.ColorOfInd = col;
         }
         else
         {
-            for (var i = 0; i < 32; i++)
+            for (var i = 0; i < Constants.ChromosomeSize; i++)
                 mutation.Child.Chromosome[i] = mutation.Child2[i];
             mutation.Child.BitesColor = num2;
             mutation.Child.Center = mutation.Parent2.Center;
-            mutation.Child.Center.X += 30;
-            mutation.Child.Center.Y += 10;
             var col = Converter.FromBoolToColor(mutation.Child2);
             mutation.Child.Pen.Color = col;
             mutation.Child.ColorOfInd = col;
         }
+        
+        mutation.Child.Center.X += 30;
+        mutation.Child.Center.Y += 10;
     }
 
     private MutationContext InitializeMutation(Individ parent1, Individ parent2) =>
