@@ -7,17 +7,17 @@ public class IndividLifecycleService(IDescendantFactory descendantFactory) : IIn
 {
     public void EvaluateLifeStatus(Population population, Func<Point, Color> colorOfRegion)
     {
-        population.RemoveBatch(population.collection.Where(x => x.LifeTime < 0).ToList());
+        population.RemoveBatch(population.Collection.Where(x => x.LifeTime < 0).ToList());
         var toAppend = new List<Individ>();
 
-        foreach (var individ in population.collection)
+        foreach (var individ in population.Collection)
         {
             if (individ.IsChecked)
             {
                 continue;
             }
 
-            foreach (var neighbour in population.collection)
+            foreach (var neighbour in population.Collection)
             {
                 if (neighbour == individ) continue;
                 

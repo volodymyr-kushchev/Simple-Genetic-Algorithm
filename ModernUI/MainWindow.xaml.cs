@@ -91,7 +91,7 @@ namespace WpfApp1;
         {
             lock (_locker)
             {
-                foreach (var ind in _population.collection)
+                foreach (var ind in _population.Collection)
                 {
                     ind.Move();
                     ind.LifeTime--;
@@ -107,7 +107,7 @@ namespace WpfApp1;
             var drawingVisual = new DrawingVisual();
             using (var dc = drawingVisual.RenderOpen())
             {
-                foreach (var ind in _population.collection)
+                foreach (var ind in _population.Collection)
                 {
                     var rect = new Rect(ind.Rectangle.X, ind.Rectangle.Y, ind.Rectangle.Width, ind.Rectangle.Height);
                     // brash the same story windows to drawing conversion

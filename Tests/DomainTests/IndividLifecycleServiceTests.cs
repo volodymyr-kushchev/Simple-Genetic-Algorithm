@@ -23,7 +23,7 @@ public class IndividLifecycleServiceTests
         individLifecycleService.EvaluateLifeStatus(population, (point) => Color.Azure);
         
         // assert
-        population.collection.Count.Should().Be(3);
+        population.Collection.Count.Should().Be(3);
     }
 
     [Fact]
@@ -41,7 +41,7 @@ public class IndividLifecycleServiceTests
         individLifecycleService.EvaluateLifeStatus(population, (point) => Color.Azure);
         
         // assert
-        population.collection.Count.Should().Be(2);
+        population.Collection.Count.Should().Be(2);
     }
     
     [Fact]
@@ -59,6 +59,6 @@ public class IndividLifecycleServiceTests
         individLifecycleService.EvaluateLifeStatus(population, (point) => Color.Azure);
         
         // assert
-        population.collection.Count.Should().Be(1);
+        population.Collection.Count.Should().Be(1);
     }
 }

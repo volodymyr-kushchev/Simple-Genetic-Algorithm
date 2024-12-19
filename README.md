@@ -15,7 +15,7 @@ Examples of running program:<br/>
 
 TODO: 
 
- - Fix issue with reproduction.
+ - Update movement of items, not just liner but make them gravitate across area.
  - Use abstraction for Paint, Color, Pen and Rectangle in Domain lib. Implement these abstraction for every UI lib separately
  - Change shape to circles.
  - Replace WinForms with WPF.

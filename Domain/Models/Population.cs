@@ -2,7 +2,7 @@
 
 public class Population(int count)
 {
-    public readonly List<Individ> collection = [];
+    public readonly List<Individ> Collection = [];
     
     private const int DefaultPopulationSize = 6;
 
@@ -16,20 +16,31 @@ public class Population(int count)
     
     public void AddIndividual(Individ individ)
     {
-        collection.Add(individ);
+        if (Collection.Count >= Constants.MaxPopulationSize)
+        {
+            OnDieIndividual?.Invoke(this, EventArgs.Empty);
+            return;
+        }
+        Collection.Add(individ);
         OnBornIndividual?.Invoke(this, EventArgs.Empty);
     }
     
     public void RemoveIndividual(Individ individ)
     {
-        collection.Remove(individ);
+        Collection.Remove(individ);
         OnDieIndividual?.Invoke(this, EventArgs.Empty);
     }
 
     public void InsertBatch(IEnumerable<Individ> individuals)
     {
         var enumerable = individuals as Individ[] ?? individuals.ToArray();
-        collection.AddRange(enumerable);
+        if (Collection.Count + enumerable.Length >= Constants.MaxPopulationSize)
+        {
+            enumerable.ToList().ForEach(x => OnDieIndividual?.Invoke(this, EventArgs.Empty));
+            return;
+        }
+        
+        Collection.AddRange(enumerable);
         enumerable.ToList().ForEach(x => OnBornIndividual?.Invoke(this, EventArgs.Empty));
     }
     
@@ -37,7 +48,7 @@ public class Population(int count)
     {
         foreach (var individ in individuals)
         {
-            collection.Remove(individ);
+            Collection.Remove(individ);
             OnDieIndividual?.Invoke(this, EventArgs.Empty);
         }
     }

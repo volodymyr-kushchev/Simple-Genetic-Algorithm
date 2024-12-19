@@ -18,7 +18,10 @@ public partial class MainArea : Form
     private readonly IIndividLifecycleService _individLifecycleService;
     private readonly IRandomProvider _randomProvider;
     
-    private SKControl _skiaControl;
+    private readonly SKControl _skiaControl = new()
+    {
+        Dock = DockStyle.Fill
+    };
 
     public MainArea(ILogger logger, IIndividLifecycleService individLifecycleService, IRandomProvider randomProvider)
     {
@@ -36,11 +39,6 @@ public partial class MainArea : Form
     
     private void SetupSkiaControl()
     {
-        _skiaControl = new SKControl
-        {
-            Dock = DockStyle.Fill
-        };
-
         _skiaControl.PaintSurface += OnPaintSurface!;
         this.Controls.Add(_skiaControl);
     }
@@ -52,7 +50,7 @@ public partial class MainArea : Form
 
         lock (_locker)
         {
-            foreach (var ind in _population.collection)
+            foreach (var ind in _population.Collection)
             {
                 var paint = new SKPaint
                 {
@@ -135,14 +133,14 @@ public partial class MainArea : Form
         _population.InsertBatch(lst4);
         _population.InsertBatch(lst5);
         _population.InsertBatch(lst6);
+        _logger?.Information(_population.Collection.Count().ToString());
     }
 
     private void UpdatePopulation(object sender, EventArgs e)
     {
         lock (_locker)
         {
-            _logger?.Information(_population.collection.Count().ToString());
-            foreach (var ind in _population.collection)
+            foreach (var ind in _population.Collection)
             {
                 ind.Move();
                 ind.LifeTime--;
@@ -189,7 +187,7 @@ public partial class MainArea : Form
     
     private void Evolution()
     {
-        _population.OnDieIndividual += (obj, arg) => { _logger?.Information("One individual has died"); };
-        _population.OnBornIndividual += (obj, arg) => { _logger?.Information("One individual has born"); };
+        _population.OnDieIndividual += (obj, arg) => { _logger?.Information("Population size: {populationCount}. One individ has died", _population.Collection.Count().ToString()); };
+        _population.OnBornIndividual += (obj, arg) => { _logger?.Information("Population size: {populationCount}. One individ has born", _population.Collection.Count().ToString()); };
     }
 }
