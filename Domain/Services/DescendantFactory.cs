@@ -29,4 +29,6 @@ public class DescendantFactory : IDescendantFactory
             _ => new GenericAlgoWithColorArea(_randomProvider)
         };
     }
+    
+    public IGenericStrategy GetStrategy() => _genericStrategy;
 }
