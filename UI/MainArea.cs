@@ -1,57 +1,80 @@
 using Domain.Models;
 using Domain.Services;
 using Serilog;
+using SkiaSharp;
+using SkiaSharp.Views.Desktop;
 
 namespace UI;
 
 public partial class MainArea : Form
 {
-    private readonly Population _population = new Population();
-    private readonly Graphics _sheet;
+    private readonly Population _population = new();
     
-    private readonly Dictionary<int, Color> _coloredAreas = new Dictionary<int, Color>();
+    private readonly Dictionary<int, Color> _coloredAreas = new();
     private readonly ILogger _logger;
 
-    private readonly object _locker = new object();
+    private readonly object _locker = new();
 
     private readonly IIndividLifecycleService _individLifecycleService;
     private readonly IRandomProvider _randomProvider;
+    
+    private SKControl _skiaControl;
 
     public MainArea(ILogger logger, IIndividLifecycleService individLifecycleService, IRandomProvider randomProvider)
     {
         InitializeComponent();
         
-        _sheet = this.CreateGraphics();
         _logger = logger;
         _individLifecycleService = individLifecycleService;
         _randomProvider = randomProvider;
 
+        SetupSkiaControl();
         PreSeed();
         Evolution();
         InitializeTick();
     }
-
-    private void Evolution()
+    
+    private void SetupSkiaControl()
     {
-        _population.OnDieIndividual += (obj, arg) => { _logger?.Information("One individual has died"); };
-        _population.OnBornIndividual += (obj, arg) => { _logger?.Information("One individual has born"); };
+        _skiaControl = new SKControl
+        {
+            Dock = DockStyle.Fill
+        };
+
+        _skiaControl.PaintSurface += OnPaintSurface!;
+        this.Controls.Add(_skiaControl);
+    }
+    
+    private void OnPaintSurface(object sender, SKPaintSurfaceEventArgs e)
+    {
+        var canvas = e.Surface.Canvas;
+        canvas.Clear(SKColors.White);
+
+        lock (_locker)
+        {
+            foreach (var ind in _population.collection)
+            {
+                var paint = new SKPaint
+                {
+                    Color = ind.ColorOfInd.ToSkiaColor(),
+                    IsAntialias = true,
+                    Style = SKPaintStyle.Stroke,
+                    StrokeWidth = 2
+                };
+
+                canvas.DrawRect(ind.Rectangle.ToSkiaRect(), paint);
+            }
+        }
     }
 
     private void InitializeTick()
     {
-        var timer = new System.Windows.Forms.Timer();
-        timer.Interval = 45;
-
+        var timer = new System.Windows.Forms.Timer { Interval = 45 };
         timer.Tick += UpdatePopulation!;
-
         timer.Start();
-
-        var timerForEvolution = new System.Windows.Forms.Timer();
-        timerForEvolution.Interval = 1000;
-
-        timerForEvolution.Tick += (sender, e) => { Task.Run(EvaluatePopulation); };
-        timerForEvolution.Tick += UpdatePopulation!;
-
+        
+        var timerForEvolution = new System.Windows.Forms.Timer { Interval = 1000 };
+        timerForEvolution.Tick += EvaluatePopulation!;
         timerForEvolution.Start();
     }
 
@@ -118,19 +141,16 @@ public partial class MainArea : Form
     {
         lock (_locker)
         {
+            _logger?.Information(_population.collection.Count().ToString());
             foreach (var ind in _population.collection)
             {
                 ind.Move();
                 ind.LifeTime--;
                 ind.IsChecked = false;
             }
-
-            _sheet.Clear(Color.White);
-            foreach (var ind in _population.collection)
-            {
-                _sheet.DrawRectangle(ind.Pen, ind.Rectangle);
-            }
         }
+        
+        _skiaControl.Invalidate();
     }
 
     private Color ColorOfRegion(Point p)
@@ -159,11 +179,17 @@ public partial class MainArea : Form
         }
     }
 
-    private void EvaluatePopulation()
+    private void EvaluatePopulation(object sender, EventArgs e)
     {
         lock (_locker)
         {
             _individLifecycleService.EvaluateLifeStatus(_population, ColorOfRegion);
         }
+    }
+    
+    private void Evolution()
+    {
+        _population.OnDieIndividual += (obj, arg) => { _logger?.Information("One individual has died"); };
+        _population.OnBornIndividual += (obj, arg) => { _logger?.Information("One individual has born"); };
     }
 }

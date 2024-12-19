@@ -1,5 +1,5 @@
 using Domain;
-using Domain.Services;
+using Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace UI;

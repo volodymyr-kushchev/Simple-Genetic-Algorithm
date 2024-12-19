@@ -1,10 +1,9 @@
-using Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 
-namespace UI;
+namespace Infrastructure;
 
-public static class LoggerExtensions
+public static class ServiceRegistry
 {
     public static IServiceCollection RegisterLogger(this IServiceCollection services)
     {

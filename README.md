@@ -10,17 +10,12 @@ Workflow:
 5) After a while, all entities die  
 
 
-Exmaples of work:<br/>
-![Screenshot](Results/Screenshot-1GA.png)
-
-![Screenshot](Results/Screenshot-2GA.png)
-
-![Screenshot](Results/Screenshot-3GA.png)
-
+Examples of running program:<br/>
+![Screenshot](Results/Rectangles-1GA.png)
 
 TODO: 
 
- - Add unit tests
- - Replace WinForms with MAUI and use graphics for visualization.
- - Change shape to circles
- - Fix issues with ui lag between iterations / generations. It called flickering. Need to use MAUI framework for visualization.
+ - Fix issue with reproduction.
+ - Use abstraction for Paint, Color, Pen and Rectangle in Domain lib. Implement these abstraction for every UI lib separately
+ - Change shape to circles.
+ - Replace WinForms with WPF.
